@@ -1,5 +1,11 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
+import { initializeSecurityConfig } from './utils.js';
+
+// 1. Initialize safe configuration and log startup diagnostics immediately before React render
+initializeSecurityConfig();
+
+import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 import App from './App.tsx';
 import './index.css';
 
@@ -18,7 +24,10 @@ if ('serviceWorker' in navigator) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </StrictMode>,
 );
+
 

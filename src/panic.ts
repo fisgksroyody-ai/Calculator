@@ -6,6 +6,7 @@
 import { getStore } from './db.js';
 import { wipeKeysFromMemory } from './crypto.js';
 import { revokeAllBlobUrls } from './vault.js';
+import { getEnvironmentMode } from './utils.js';
 
 /**
  * Execute the Panic Wipe:
@@ -16,7 +17,18 @@ import { revokeAllBlobUrls } from './vault.js';
  * 5. Returns true on successful wipe to inform UI of silent fake vault transition
  */
 export async function executePanicWipe(): Promise<boolean> {
+  const envMode = getEnvironmentMode();
+
   try {
+    // In DEVELOPMENT and HOSTED_PREVIEW modes, we disable actual data-destructive wipe to protect testing content.
+    // We simulate the key-reset trigger in memory to demonstrate the transition silently.
+    if (envMode === 'DEVELOPMENT' || envMode === 'HOSTED_PREVIEW') {
+      console.warn(`[CalculatorVault Security] Non-destructive simulated panic wipe triggered in ${envMode}.`);
+      wipeKeysFromMemory();
+      revokeAllBlobUrls();
+      return true;
+    }
+
     // 1. Clear keys from settings store
     const settingsStore = await getStore("settings", "readwrite");
     settingsStore.delete("wrapped_master_key");

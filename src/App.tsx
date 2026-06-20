@@ -48,7 +48,8 @@ import {
   initializeInactivityMonitor,
   startDevToolsDetection,
   checkEnvironmentSecurity,
-  formatBytes
+  formatBytes,
+  getEnvironmentMode
 } from './utils.js';
 
 export default function App() {
@@ -132,8 +133,8 @@ export default function App() {
     bootApp();
 
     // DevTools scanners
-    const cancelDevTools = startDevToolsDetection(() => {
-      setTamperError("Developer Tools scanning active");
+    const cancelDevTools = startDevToolsDetection((reason) => {
+      setTamperError(reason || "Developer Tools scanning active");
       lockActiveVault();
     });
 
@@ -245,7 +246,7 @@ export default function App() {
 
   // Calculator Engine logic
   function handleCalcKeyPress(key: string) {
-    if (tamperError) return; // Freeze app if tampered
+    if (tamperError && getEnvironmentMode() === 'PRODUCTION') return; // Freeze app if tampered in production
     setIsErrorState(false);
 
     if (key === 'C') {
@@ -529,7 +530,7 @@ export default function App() {
       )}
 
       {/* Anti-Tampering Shield Alert Block */}
-      {tamperError && (
+      {tamperError && getEnvironmentMode() === 'PRODUCTION' && (
         <div className="fixed inset-0 bg-black/95 z-[100] flex flex-col justify-center items-center p-6 text-center">
           <div className="w-16 h-16 bg-red-950/50 rounded-full flex items-center justify-center border border-red-500/30 mb-6 glow-glow">
             <ShieldAlert className="text-red-500 w-9 h-9" />
@@ -549,6 +550,26 @@ export default function App() {
 
       {/* Real-time Content Container */}
       <main className="w-full max-w-md h-[100dvh] flex flex-col bg-zinc-950/90 border border-zinc-900/60 shadow-2xl relative rounded-none md:rounded-3xl overflow-hidden z-10">
+        
+        {/* Dynamic Passive Security Telemetry / Diagnostics Non-blocking Notification */}
+        {tamperError && getEnvironmentMode() !== 'PRODUCTION' && (
+          <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 flex items-center justify-between gap-3 z-40 text-xs animate-fadeIn shrink-0">
+            <div className="flex items-center gap-2 text-amber-400">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-amber-500 animate-pulse" />
+              <div>
+                <p className="font-bold">Passive Monitor Bypassed ({getEnvironmentMode()})</p>
+                <p className="text-[10px] text-gray-400">{tamperError}</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setTamperError(null)}
+              className="text-amber-500 hover:text-amber-300 font-bold px-1.5 py-0.5 rounded transition-transform active:scale-95 text-sm cursor-pointer"
+              title="Acknowledge Telemetry Alert"
+            >
+              ×
+            </button>
+          </div>
+        )}
 
         {/* ==================== SCREEN 1: DETAILED PIN SETUP ==================== */}
         {currentScreen === 'setup' && (
@@ -635,7 +656,7 @@ export default function App() {
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
-                <span className="text-[9px] font-mono font-bold tracking-wider">OFFLINE SECURE</span>
+                <span className="text-[9px] font-mono font-bold tracking-wider text-emerald-400">OFFLINE SECURE - {getEnvironmentMode()} MODE</span>
               </div>
             </div>
 
