@@ -1,0 +1,66 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* Custom Animations & Interactions for Calculator Vault */
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(26, 115, 232, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(26, 115, 232, 0.8), 0 0 40px rgba(26, 115, 232, 0.6);
+  }
+}
+
+.glow-glow {
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+/* Fluid Screen transitions */
+.screen-transition {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Interactive touch classes for active touch overlays */
+.button-pressed {
+  transform: scale(0.95);
+  background-color: rgb(58, 58, 60) !important;
+}
+
+.op-button-pressed {
+  transform: scale(0.95);
+  background-color: rgba(26, 115, 232, 0.3) !important;
+}
+
+/* Custom overlay backdrops */
+.vault-overlay-mask {
+  background: radial-gradient(circle at center, rgba(30, 30, 30, 0.85) 0%, rgba(10, 10, 10, 0.98) 100%);
+}
+
+/* Custom rounded scrollbars for media vault lists */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 99px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 99px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Security Flag Secure Mock Styling */
+.screenshot-blocked {
+  user-select: none;
+  -webkit-user-drag: none;
+}

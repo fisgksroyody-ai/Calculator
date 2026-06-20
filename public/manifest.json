@@ -1,0 +1,23 @@
+{
+  "short_name": "CalcVault",
+  "name": "Calculator Vault Pro",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/564/564429.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/564/564429.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "display": "standalone",
+  "orientation": "portrait"
+}

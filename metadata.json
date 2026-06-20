@@ -1,0 +1,6 @@
+{
+  "name": "Calculator Vault",
+  "description": "A secure, local-only offline calculator stealth vault utilizing Web Cryptography APIs and IndexedDB for encrypted media storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
