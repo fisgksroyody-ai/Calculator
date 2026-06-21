@@ -39,14 +39,17 @@ dependencies {
     implementation 'androidx.webkit:webkit:1.10.0'
 }
 
-// Automatically sync Vite built files from root (/dist) into Android assets folder before Android compilation
-// This uses static, configuration-cache safe path layouts native to Gradle 8.5+
+// WARNING: DO NOT add afterEvaluate, configurations.all, configurations.configureEach,
+// or any dynamic dependency/resolutionStrategy mutations below.
+// This project guarantees static modern compilation compatibility with Gradle 8.5+.
+
+// Automatically sync Vite built files from root (/dist) into Android assets folder before compilation
 tasks.register('copyViteAssets', Copy) {
     from layout.projectDirectory.dir("../../dist")
     into layout.projectDirectory.dir("src/main/assets")
 }
 
-// Statically declare that the preBuild task depends on our asset copying task
+// Statically link task completion order
 tasks.named('preBuild') {
     dependsOn('copyViteAssets')
 }
