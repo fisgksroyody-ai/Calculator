@@ -199,7 +199,7 @@ export default function App() {
       setSetupStep(2);
     } else if (setupStep === 2) {
       if (inputVal === tempRealPin) {
-        setSetupError("Fake PIN aur Real PIN alag hone chahiye!");
+        setSetupError("Secondary PIN aur Main PIN alag hone chahiye!");
         return;
       }
       setTempFakePin(inputVal);
@@ -598,9 +598,9 @@ export default function App() {
                   )}
                   {setupStep === 2 && (
                     <>
-                      <h1 className="text-xl font-bold font-display tracking-tight text-amber-500 mb-2">Fake PIN set karein</h1>
+                      <h1 className="text-xl font-bold font-display tracking-tight text-amber-500 mb-2">Secondary PIN set karein</h1>
                       <p className="text-xs text-gray-400 max-w-xs mb-6">
-                        Yadi koi dabav banaye, to ye PIN daalein. Ek poora fake clean vault chalega bina real data expose kiye. (e.g. <strong>728411÷</strong>)
+                        Yadi safe sharing ki zarurat ho ya temporary access dena ho, to ye PIN daalein. Ye ek separate and fully active media storage space kholega bina primary content ko touch kiye. (e.g. <strong>728411÷</strong>)
                       </p>
                     </>
                   )}
@@ -608,7 +608,7 @@ export default function App() {
                     <>
                       <h1 className="text-xl font-bold font-display tracking-tight text-red-500 mb-2">Panic PIN set karein</h1>
                       <p className="text-xs text-gray-400 max-w-xs mb-6">
-                        Emergency me ye PIN daalkar '=' dabayein. Ye real keys ko instantly self-destruct karke silent tarike se fake vault khol dega. (e.g. <strong>991742×</strong>)
+                        Emergency me ye PIN daalkar '=' dabayein. Ye active memory keys ko instantly delete karke silent tarike se secondary media space khol dega. (e.g. <strong>991742×</strong>)
                       </p>
                     </>
                   )}
@@ -832,7 +832,7 @@ export default function App() {
                 </button>
                 <div className="flex flex-col">
                   <h2 className="text-sm font-bold font-display tracking-wide uppercase text-white">Media Locker</h2>
-                  <span className="text-[9px] text-zinc-500 font-mono tracking-wider">Unencrypted Shared Block</span>
+                  <span className="text-[9px] text-zinc-500 font-mono tracking-wider">Local Private Storage</span>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -849,7 +849,7 @@ export default function App() {
             {isDragging && (
               <div className="absolute inset-x-0 bottom-0 top-[60px] bg-zinc-900/90 backdrop-blur-sm border-2 border-dashed border-zinc-800 z-40 flex flex-col justify-center items-center pointer-events-none">
                 <Plus className="w-12 h-12 text-zinc-500 animate-pulse" />
-                <p className="text-zinc-400 font-medium text-sm">Drop files here to upload decoy storage</p>
+                <p className="text-zinc-400 font-medium text-sm">Drop files here to save to gallery</p>
               </div>
             )}
 
@@ -860,7 +860,7 @@ export default function App() {
                   <ImageIcon className="w-10 h-10 text-zinc-800 mb-4" />
                   <h3 className="text-zinc-500 font-bold font-display text-sm">Locker Empty</h3>
                   <p className="text-zinc-600 text-xs mt-1.5 leading-relaxed">
-                    Yahan koi bhi image/video saved nahi hai. Niche right side me '+' par click karke unencrypted mock storage me save karein.
+                    Yahan koi bhi image/video saved nahi hai. Niche right side me '+' par click karke apni gallery me save karein.
                   </p>
                 </div>
               ) : (
@@ -884,7 +884,7 @@ export default function App() {
                             <span className="text-[7px] text-zinc-500 font-mono tracking-wider font-bold">VIDEO</span>
                           </div>
                         ) : (
-                          <img src={item.data} className="w-full h-full object-cover screenshot-blocked" alt="Decoy thumbnail" referrerPolicy="no-referrer" />
+                          <img src={item.data} className="w-full h-full object-cover screenshot-blocked" alt="Media thumbnail" referrerPolicy="no-referrer" />
                         )}
                       </motion.div>
                     );
@@ -1021,12 +1021,12 @@ export default function App() {
               {selectedFakeItem.type === 'video' ? (
                 <video src={selectedFakeItem.data} controls autoPlay className="max-w-full max-h-[70vh] rounded-lg screenshot-blocked" />
               ) : (
-                <img src={selectedFakeItem.data} className="max-w-full max-h-[70vh] rounded-lg object-contain screenshot-blocked" alt="Decoy preview" referrerPolicy="no-referrer" />
+                <img src={selectedFakeItem.data} className="max-w-full max-h-[70vh] rounded-lg object-contain screenshot-blocked" alt="Media preview" referrerPolicy="no-referrer" />
               )}
             </div>
 
             <div className="p-4 bg-zinc-950/70 border-t border-zinc-900 text-center">
-              <span className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest">Decoy Locker Workspace</span>
+              <span className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest">Secured Storage Block</span>
             </div>
           </motion.div>
         )}
