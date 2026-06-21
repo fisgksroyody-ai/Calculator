@@ -92,6 +92,12 @@ export default function App() {
 
   // Setup database and check initialization on boot
   useEffect(() => {
+    // Expose window.lockVault for secure native/WebView background auto-locking
+    (window as any).lockVault = () => {
+      console.log("[CalculatorVault Native Security] Auto-lock signal received from host platform.");
+      lockActiveVault();
+    };
+
     async function bootApp() {
       try {
         await openVaultDatabase();
