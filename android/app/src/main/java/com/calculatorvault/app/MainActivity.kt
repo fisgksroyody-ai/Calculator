@@ -112,10 +112,22 @@ class MainActivity : AppCompatActivity() {
         lockVaultMemory()
     }
 
-    // Secure resume handling – trigger memory scrub check
+    // Secure resume handling – trigger memory scrub check and reinforce FLAG_SECURE
     override fun onResume() {
         super.onResume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         lockVaultMemory()
+    }
+
+    // ANDROID SECURITY HARDENING: Immediate app-switcher / task privacy protection
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        // Ensure FLAG_SECURE is active during focus transitions
+        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        if (!hasFocus) {
+            // Instantly clear memory keys if workspace loses focus
+            lockVaultMemory()
+        }
     }
 
     private fun lockVaultMemory() {
