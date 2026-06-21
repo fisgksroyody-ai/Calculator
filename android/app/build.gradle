@@ -9,37 +9,26 @@ android {
 
     defaultConfig {
         applicationId "com.calculatorvault.app"
-        minSdk 26
+        minSdk 21
         targetSdk 34
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        debug {
-            applicationIdSuffix ".debug"
-            debuggable true
+        release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        release {
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            
-            // Placeholder signing config to compile out-of-the-box or document signing keys safely
-            // signingConfig signingConfigs.debug
-        }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '1.8'
     }
 }
 
@@ -50,13 +39,14 @@ dependencies {
     implementation 'androidx.webkit:webkit:1.10.0'
 }
 
-// Automatically sync Vite built files in root (/dist) into Android assets folder before Android compilation
+// Automatically sync Vite built files from root (/dist) into Android assets folder before Android compilation
+// This uses static, configuration-cache safe path layouts native to Gradle 8.5+
 tasks.register('copyViteAssets', Copy) {
-    from '../../dist'
-    into 'src/main/assets'
+    from layout.projectDirectory.dir("../../dist")
+    into layout.projectDirectory.dir("src/main/assets")
 }
 
+// Statically declare that the preBuild task depends on our asset copying task
 tasks.named('preBuild') {
-    dependsOn 'copyViteAssets'
+    dependsOn('copyViteAssets')
 }
-
